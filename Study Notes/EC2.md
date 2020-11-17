@@ -43,8 +43,13 @@ EBS root volume of your default AMI’s cannot be encrypted. This can be done wh
 
 ### Security Groups
 
+*   Acts like a Firewall outside the EC2 instance.
+*   0.0.0.0/0 -> means allow all traffic.
 *   All inbound traffic is blocked by default.
 *   All outbound traffic is allowed.
+*   Security groups can be attached to multiple instances and also 1 instance can have multiple security groups too.
+*   Security groups are locked down to a region/VPC combination.
+*   HAVE ONE SEPERATE Security Group FOR SSH access.
 *   Changes to security groups take effect immediately.
 *   You can have any number of EC2 instances within a security group.
 *   You can have multiple security groups attached to EC2 instances.
