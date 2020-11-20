@@ -12,7 +12,7 @@ On demand: Pay a fixed rate by the hour with no commitment.
 *   Applications with short term, spiky, or unpredictable workloads that cannot be interrupted.
 *   Applications being developed or tested on EC2 for the first time.
 
-Reserved: Provides a capacity reservation with a significant discount. Contract terms are 1 year or 3 year terms.
+Reserved: Provides a capacity reservation with a significant discount. Contract terms are 1 year or 3 year terms. Minimum of 1 year. 
 
 *   Applications with steady state or predictable usage.
 *   Applications that require reserved capacity.
@@ -20,7 +20,7 @@ Reserved: Provides a capacity reservation with a significant discount. Contract 
 
 *   Standard reserved instances: The more you pay up-front and the longer the contract, the greater the discount.
 *   Convertible reserved instances: Allow users to change attributes of the reserved instance as long as the exchange results in the creation of reserved instances of equal or greater value.
-*   Scheduled reserved instances: Available to launch within the time windows you reserve.
+*   Scheduled reserved instances: Available to launch within the time windows you reserve. For example, every Thursday 3pm to 6pm.
 
 Spot: Enables you to bid the price for instance capacity, providing for even greater savings if your applications have flexible start and end times.
 
@@ -55,6 +55,24 @@ EBS root volume of your default AMI’s cannot be encrypted. This can be done wh
 *   You can have multiple security groups attached to EC2 instances.
 *   Security groups are STATEFUL, which means that if you enable inbound traffic on specific port, its outbound traffic will be allowed correspondingly.
 *   You cannot block specific IP addresses using security groups, instead use Network Access Control Lists. Also, you can only specify allow rules, but not deny rules.
+*   Whenever there is a time out issue, usually due to a Security Group
+*   Whenever when there is a permission issue, its due to a CHMOD 400 issue with the keys. 
+
+### Elastic IPv4
+
+*   Public IPv4 -> used to talk to the www (internet). Use this to SSH. 
+*   Private IPv4 -> used to talk within the private Organisational network. Need NAT + Gateways to communicate with the www. 
+*   When you start-stop a EC2 instance, the public IP changes. Private IPv4 doesn't change. 
+*   If you want to have a fixed public IP, you use an Elastic IP, it doesn't change until you delete the instance. 
+*   Its main use case is fault tolerance. You can quickly re-map the address to another EC2 instance if you think there is a failure in the current instance.
+*   You can have only 5 Elastic IP in your account. AWS can increase that for you. 
+*   RECOMMENDED - try and avoid Elastic IP
+
+### EC2 User Data
+
+*   Bootstrap using EC2 User data -> launching commands when the machine starts.
+*   This option is placed in the Advanced Settings -> paste the code to be run. 
+*   This script is run only once when the instance loads. 
 
 ### Elastic Block Store (EBS)
 
