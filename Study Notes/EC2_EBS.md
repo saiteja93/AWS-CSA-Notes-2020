@@ -4,36 +4,71 @@
 
 EC2 is a web service that provides resizable compute capacity in the cloud. It will reduce the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, as your computing requirements change.
 
+*   Sometimes can use Custom AMIs (Amazon Machine Instances), due to various advantages (32)
+*   AMIs are build over a Specific **Region**. Same AMI_ID cannot be used over regions.
+*   T2 instances are burstable. Start with OK CPU -> unexpected load -> CPU burst, until the Burst credits get over -> CPU performance get bad. Burst credits are accumulated over time.  If you are constantly low on burst credits, than you have to get a higher powered instance. 
+*   M are moderate instances (good at everything)
+*   T2 unlimited has unlimited burst credits. but, expensive. 
+
 ### EC2 Pricing models
+* EC2 pricing is **per hour** basis. Billed per second. Minimum is 1 minute. Depends on the following things:
+    *   Region you're in
+    *   Instance type you're using
+    *   On-demand vs Spot vs Reserved vs Dedicated host
+    *   Linux vs Windows vs Private OS
+    *   STorage, load balancing, data transfer, fixed IP addresses etc.
+    
 
-On demand: Pay a fixed rate by the hour with no commitment.
+**On demand**: Pay a fixed rate by the hour with no commitment.
 
+*   Short workload and predictable pricing. Highest Cost.
+*   Recommended for Short term and un-interrupted workloads or when you cant predict how your application will behave over time. 
 *   Users that want the low cost and flexibility of EC2 without any up-front payment or long-term commitment.
 *   Applications with short term, spiky, or unpredictable workloads that cannot be interrupted.
 *   Applications being developed or tested on EC2 for the first time.
 
-Reserved: Provides a capacity reservation with a significant discount. Contract terms are 1 year or 3 year terms. Minimum of 1 year. 
+**Reserved**: Provides a capacity reservation with a significant discount, upto 75%. Contract terms are 1 year or 3 year terms. Minimum of 1 year. 
 
+*   Recommended for databases.
 *   Applications with steady state or predictable usage.
 *   Applications that require reserved capacity.
 *   Users able to make up-front payments to reduce their total computing cost even further.
 
-*   Standard reserved instances: The more you pay up-front and the longer the contract, the greater the discount.
-*   Convertible reserved instances: Allow users to change attributes of the reserved instance as long as the exchange results in the creation of reserved instances of equal or greater value.
-*   Scheduled reserved instances: Available to launch within the time windows you reserve. For example, every Thursday 3pm to 6pm.
+*   **Standard reserved instances**: The more you pay up-front and the longer the contract, the greater the discount.
+*   **Convertible reserved instances**: Allow users to change attributes of the reserved instance as long as the exchange results in the creation of reserved instances of equal or greater value. 54% discount.
+*   **Scheduled reserved instances**: Available to launch within the time windows you reserve. For example, every Thursday 3pm to 6pm. 
 
-Spot: Enables you to bid the price for instance capacity, providing for even greater savings if your applications have flexible start and end times.
+**Spot**: Enables you to bid the price for instance capacity, providing for even greater savings, 90% discount, if your applications have flexible start and end times.
 
+*   Short workloads for cheap, can lose instances (less reliable)
 *   Applications that have flexible start and end times.
 *   Applications that are only feasible at very low compute prices.
 *   Users with urgent computing needs for large amounts of additional capacity.
+*   Anything that is possible to re-try. Batch jobs, Data Analysis, Image Processing etc,.
 
-Dedicated hosts: Physical EC2 server dedicated for your use, which can help you reduce costs by allowing you to use your existing server.
+**Dedicated hosts**: Physical EC2 server dedicated for your use, which can help you reduce costs by allowing you to use your existing server. Get for 3 years.
 
+*   More expensive
+*   You have access to under-lying sockets and physical cores of the hardware
+*   Useful for software that have complicated licensing model (BYOL - Bring your own license) or for companies that have string regulatory or compliance needs.
 *   Useful for regulatory requirements that may not support multi-tenant virtualization.
 *   Great for licensing which does not support multi-tenancy or cloud deployments.
 *   Can be purchased on demand (hourly).
-*   Can be purchased on reservation.
+*   Can be purchased on reservation
+
+Great Combo - Reserved instances for Baseline (database etc.)  + On-Demand and Spot for unpredictable/peaks (depends on failure requirement)
+
+Check Lecture 28 to get price comparisons. 
+Hands On -> you can pick what instance you like in the Instances section.
+
+### Elastic Network Interfaces (ENI)
+
+*   provides connectivity your EC2 network.
+*   They can be attached and detached to an EC2 instance.
+*   Every EC2 instance -> Eth0 -> primary ENI. You can add Eth1 -> secondary ENI. 
+*   Create ENI independently and attach them to an existing ENI. They dont have a Public IP when created, it gets assigned when you attach them to an instance.
+*   Mainly used to deal with failure. Low Budget Availability. If an instance dies, launch another one and attach the ENI to it. Traffic flow will resume within a few seconds.
+*   They are bound to an AZ.
 
 ### EC2 Lab
 
@@ -73,6 +108,10 @@ EBS root volume of your default AMI’s cannot be encrypted. This can be done wh
 *   Bootstrap using EC2 User data -> launching commands when the machine starts.
 *   This option is placed in the Advanced Settings -> paste the code to be run. 
 *   This script is run only once when the instance loads. 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 ### Elastic Block Store (EBS)
 
